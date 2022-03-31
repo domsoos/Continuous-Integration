@@ -1,0 +1,8 @@
+-classpath '/Users/zeus/Documents/GitHub/Continuous-Integration/project/build/classes/java/main:/Users/zeus/Documents/GitHub/Continuous-Integration/project/build/resources/main'
+-d '/Users/zeus/Documents/GitHub/Continuous-Integration/project/build/docs/javadoc'
+-doctitle 'project API'
+-notimestamp 
+-quiet 
+-windowtitle 'project API'
+'/Users/zeus/Documents/GitHub/Continuous-Integration/project/src/main/java/edu/odu/cs/cs350/Author.java'
+'/Users/zeus/Documents/GitHub/Continuous-Integration/project/src/main/java/edu/odu/cs/cs350/Book.java'
