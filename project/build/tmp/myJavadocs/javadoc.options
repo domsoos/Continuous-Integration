@@ -1,7 +1,0 @@
--d '/Users/zeus/Documents/GitHub/gradle-assignment-domsoos/project/build/docs/javadoc'
--doctitle 'project API'
--notimestamp 
--quiet 
--windowtitle 'project API'
-'/Users/zeus/Documents/GitHub/gradle-assignment-domsoos/project/src/main/java/edu/odu/cs/cs350/Author.java'
-'/Users/zeus/Documents/GitHub/gradle-assignment-domsoos/project/src/main/java/edu/odu/cs/cs350/Book.java'
