@@ -2,10 +2,6 @@ plugins {
    id 'java'
 }
 
-task reports {
-
-}
-
 java {
     sourceCompatibility = JavaVersion.toVersion(11)
     targetCompatibility = JavaVersion.toVersion(11)
@@ -36,50 +32,47 @@ task copyDir (type:Copy) {
     into 'build/reports/'
 }
 
-////////  Website publication on GitHub pages ///////////////////
+//////  Website publication on GitHub pages ///////////////////
 
-
-def websiteRepo='git@github.com:domsoos/CIWeb.git'
-
-task clearPages(type: Delete) {
-    delete 'build/gh-pages'
-}
-
-task clonePages(dependsOn: ['clearPages']) {                
+task clonePages() {
     doLast {
+        def thisRepo = rootProject.projectDir.toString()
+        def pagesDir = "$buildDir/gh-pages"
+        mkdir pagesDir
+        project.delete {
+            delete pagesDir
+        }
         exec {
             workingDir = '.'
-            commandLine = ['git', 'clone', websiteRepo, 'build/gh-pages']
+            commandLine = ['git', 'clone', 'file://' + thisRepo, '-b', 'gh-pages', pagesDir]
         }
     }
 }
 
-
-task copyWebsite (dependsOn: ['reports', 'clonePages']) {   
+task copyReports (type: dependsOn: ['buildSite', 'clonePages']) {
     doLast {
-        ant.copy (todir: 'build/gh-pages') {
+        ant.copy (todir: pagesDir) {
             fileset(dir: 'build/reports')
         }
     }
 }
 
 
-
-task updateGHPages (dependsOn: 'copyWebsite') {
+task updateGHPages (dependsOn: 'copyReports') {
     group = "Reporting"
-    description  'Copies reports to the website repo and pushes to GitHub'
+    description  'Copies reports to the gh-pages branch in preparation for a future push to GitHub'
     doLast {
         def pagesDir = "$buildDir/gh-pages"
         exec {
-            workingDir = 'build/gh-pages'                                
+            workingDir = pagesDir
             commandLine = ['git', 'add', '.']
         }
         exec {
-            workingDir = 'build/gh-pages'
-            commandLine = ['git', 'commit', '-m', 'Updating-webpages']   
+            workingDir = pagesDir
+            commandLine = ['git', 'commit', '-m', 'Updating-webpages']
         }
         exec {
-            workingDir = 'build/gh-pages'
+            workingDir = pagesDir
             commandLine = ['git', 'push']
         }
     }
